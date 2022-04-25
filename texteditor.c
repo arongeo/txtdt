@@ -3,9 +3,6 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#define MAX_WINDOW_WIDTH 1000
-#define MAX_WINDOW_HEIGHT 1000
-
 struct cursor_t {
 	unsigned int x;
 	unsigned int y;
@@ -29,11 +26,18 @@ void get_window_size(unsigned int window_size[2]) {
 	struct winsize windowsize;
 	ioctl(0, TIOCGWINSZ, (char *) &windowsize);
 	window_size[0] = windowsize.ws_col-1;
-	window_size[1] = windowsize.ws_row;
+	window_size[1] = windowsize.ws_row-3;
 }
 
-void render_screen(unsigned int width, unsigned int height, struct screen_part_t screen[][height]) {
+void render_screen(unsigned int width, unsigned int height, struct screen_part_t screen[][width]) {
 	char* result;
+	for (int i=0; i<height; i++) {
+		for (int j=0; j<width; j++) {
+			result += screen[i][j].value;
+		}
+		result += '\n';
+	}
+	printf("%s", result);
 }
 
 int main() {
