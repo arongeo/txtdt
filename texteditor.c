@@ -48,6 +48,11 @@ int main() {
 	window.width = winsize[0];
 	window.height = winsize[1];
 	struct screen_part_t screen[window.height][window.width];
+	for (int i=0; i<window.height; i++) {
+		for (int j=0; j<window.width; j++) {
+			screen[i][j] = 'a';
+		}
+	}
 	render_screen(window.width, window.height, screen);
 	return 0;
 }
